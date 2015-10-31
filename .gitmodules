@@ -1,6 +1,6 @@
-[submodule "scripts/pypp"]
-	path = scripts/pypp
-	url = git@github.com:calcu16/PyPP.git
-[submodule "bootstrap"]
-	path = bootstrap
-	url = git@github.com:twitter/bootstrap
+[submodule "modules/pypp"]
+	path = modules/pypp
+	url = git://github.com/calcu16/PyPP.git
+[submodule "modules/pymysql"]
+	path = modules/pymysql
+	url = git://github.com/calcu16/PyMySQL.git
