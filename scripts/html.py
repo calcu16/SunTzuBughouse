@@ -2,13 +2,13 @@
 # All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
-# modification, are permitted provided that the following conditions are met: 
+# modification, are permitted provided that the following conditions are met:
 #
 # 1. Redistributions of source code must retain the above copyright notice, this
-#    list of conditions and the following disclaimer. 
+#    list of conditions and the following disclaimer.
 # 2. Redistributions in binary form must reproduce the above copyright notice,
 #    this list of conditions and the following disclaimer in the documentation
-#    and/or other materials provided with the distribution. 
+#    and/or other materials provided with the distribution.
 #
 # THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
 # ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
@@ -22,10 +22,11 @@
 # SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #
 # The views and conclusions contained in the software and documentation are those
-# of the authors and should not be interpreted as representing official policies, 
+# of the authors and should not be interpreted as representing official policies,
 # either expressed or implied, of the FreeBSD Project.
 
 def setup():
+  from ast import literal_eval
   from base64 import urlsafe_b64encode, urlsafe_b64decode
   from http.cookies import CookieError, SimpleCookie
   from cgi import FieldStorage
@@ -36,6 +37,7 @@ def setup():
   from os import environ, path
   from pickle import dumps, loads, UnpicklingError
   from .pypp import preprocess
+  from random import choice, randrange
   from sys import exit
 
   class DecimalEncoder(JSONEncoder):
@@ -44,13 +46,12 @@ def setup():
       if isinstance(obj, Decimal):
         return str(obj)
       return JSONEncoder.default(self, obj)
-  
+
   global toJSON, toHiddenJSON
   def toJSON(obj):
     nonlocal DecimalEncoder
     return DecimalEncoder().encode(obj)
   def toHiddenJSON(obj):
-    nonlocal DecimalEncoder
     return toJSON(obj).replace("&", "&#38;").replace("'", "&39;")
 
   new_cookies = SimpleCookie()
@@ -62,7 +63,7 @@ def setup():
     old_cookies = SimpleCookie(environ['HTTP_COOKIE'])
   except (CookieError, KeyError):
     old_cookies = {}
-  
+
   global getCookie, setCookie, deleteCookie
   def getCookie(name):
     nonlocal old_cookies
@@ -78,7 +79,7 @@ def setup():
     nonlocal new_cookies, moon
     new_cookies[name] = 'expiring'
     new_cookies[name]['expires'] = moon.strftime("%a, %d-%b-%Y %H:%M:%S GMT")
-  
+
   global getField, containsField, setField, saveFields, loadFields
   def getField(name, one = True):
     nonlocal form, fields
@@ -100,7 +101,7 @@ def setup():
         fields = loads(urlsafe_b64decode(bytes(dictionary, 'utf-8')))
     except UnpicklingError:
       pass
-    
+
   global redirect, serve, AJAX, error
   def redirect(loc):
     nonlocal new_cookies
@@ -113,7 +114,6 @@ def setup():
     print("Content-type: text/plain")
     print()
     print(toJSON(doc))
-    exit(0)
   def serve(name):
     global values, getField
     nonlocal preprocess, new_cookies, path
@@ -121,15 +121,17 @@ def setup():
     values['getField'] = getField
     folder = name.rsplit(".", 1)[1]
     try:
-      preprocess(path.join(folder, name), values, None, root="./")
+      values.update(preprocess(path.join(folder, name), values, None, root="./"))
     except IOError as e:
       if e.errno == 2:
         error(name, 404)
       else:
         raise
+    values['NDEBUG'] = 'True'
     preprocess(path.join(folder, name), values, root="./")
-    exit(0)
-  
+    close_conn()
+
+
   errmessages = {
     404 : 'Not Found'
   }
@@ -147,7 +149,20 @@ def setup():
     setField('query_string', '')
 
   conn = sql(**preprocess('conf/db.conf'))
-  
+  def close_conn():
+    nonlocal conn
+    del conn
+  def safe_literal_eval(s):
+    try:
+      return literal_eval(s)
+    except:
+      return s
+  def literal_args(func):
+    def partial(*args, **kwargs):
+      return func(*(safe_literal_eval(a) for a in args), **dict((k, safe_literal_eval(v)) for (k,v) in kwargs.items()))
+    return partial
+
+
   global values
   values = {
     'query_string' : getField('query_string'),
@@ -156,6 +171,14 @@ def setup():
     'query' : conn.query,
     'queryRow' : conn.queryRow,
     'queryScalar' : conn.queryScalar,
+    'range': literal_args(range),
+    'randrange': literal_args(randrange),
+    'choice': literal_args(lambda l: choice(list(l))),
+    'remove': literal_args(lambda s, v : s - { v }),
+    'sorted': literal_args(sorted),
+    'head': literal_args(lambda l : l[0]),
+    'rest': literal_args(lambda l :l[1:]),
+    'toJSON': literal_args(toJSON),
   }
   values['site_path'] = path.dirname(environ['SCRIPT_NAME'])
   values['file_path'] = environ['REDIRECT_URL'][len(values['site_path']):]

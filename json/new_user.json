@@ -1,0 +1,6 @@
+#include "200.json"
+#call value=getField "uid"
+"%(value)s"
+#ifndef NDEBUG
+#call execute "new_user" "('%(value)s',)"
+#endif

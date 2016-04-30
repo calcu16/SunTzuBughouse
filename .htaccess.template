@@ -8,6 +8,7 @@ DirectoryIndex index.html
 
 RewriteEngine On
 RewriteRule ^.*\.html %(dir)s/handler.py
+RewriteRule ^.*\.json %(dir)s/handler.py
 RewriteRule ^.*/[^.]*$ %(dir)s/handler.py
 RewriteRule ^[^.]*$ %(dir)s/handler.py
 

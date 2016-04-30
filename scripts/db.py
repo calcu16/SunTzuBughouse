@@ -56,6 +56,7 @@ class AbstractConnection(object):
     preprocess('sql/%s.sql' % queryfile, ppargs, result)
     querystr = result()
     self.cur.execute(querystr, qargs)
+    return self.cur.lastrowid
   def query(self, queryfile, qargs={}, ppargs={}):
     self.execute(queryfile, qargs, ppargs)
     return self.cur.fetchall()
@@ -85,6 +86,10 @@ def sqlite(**kwargs):
       self.conn = connect(**kwargs)
       self.cur = self.conn.cursor()
       self.cur.row_factory = dict_factory
+    def __del__(self):
+      self.cur.close()
+      self.conn.commit()
+      self.conn.close()
   return Connection(**kwargs)
 
 def mysql(**kwargs):
@@ -109,7 +114,7 @@ def noSource(**kwargs):
       self.queryRow = None
       self.queryScalar = None
   return Connection(**kwargs)
-      
+
 def sql(source, **kwargs):
   sources = {
     'mysql' : mysql,

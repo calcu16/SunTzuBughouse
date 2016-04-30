@@ -1,0 +1,6 @@
+#include "200.json"
+#call gid=getField "gid"
+#call team=getField "team"
+#call boards=query "get_boards" "{'gid':%(gid)s, 'team':%(team)s}"
+#call text=toJSON boards
+%(text)s

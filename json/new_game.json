@@ -1,0 +1,77 @@
+#include "200.json"
+#ifdef gid
+"%(gid)s"
+#end
+#ifndef NDEBUG
+#call gid=execute "new_game"
+#define 0 gid "%(gid)s"
+
+#for bid "('0', '1')"
+#call ls=range "8" "16"
+#for l ls
+#call execute "insert_square" "{'gid':'%(gid)s', 'bid':'%(bid)s', 'lid':'%(l)s', 'p':'5', 'color':'0'}"
+#end
+
+#local unused "{0, 1, 2, 3, 4, 5, 6, 7}"
+#for i "('0', '1')"
+#call l=randrange i "8" "2"
+#call execute "insert_square" "{'gid':'%(gid)s', 'bid':'%(bid)s', 'lid':'%(l)s', 'p':'3', 'color':'0'}"
+#call _=remove unused l
+#local 1 unused "%(_)s"
+#end
+
+#call l=choice unused
+#call execute "insert_square" "{'gid':'%(gid)s', 'bid':'%(bid)s', 'lid':'%(l)s', 'p':'1', 'color':'0'}"
+#call _=remove unused l
+#local unused "%(_)s"
+
+#for i "('0', '1')"
+#call l=choice unused
+#call execute "insert_square" "{'gid':'%(gid)s', 'bid':'%(bid)s', 'lid':'%(l)s', 'p':'4', 'color':'0'}"
+#call _=remove unused l
+#local 1 unused "%(_)s"
+#end
+
+#call sunused=sorted unused
+#for p "('2', '0', '2')"
+#call l=head sunused
+#call execute "insert_square" "{'gid':'%(gid)s', 'bid':'%(bid)s', 'lid':'%(l)s', 'p':'%(p)s', 'color':'0'}"
+#call _=rest sunused
+#local 1 sunused "%(_)s"
+#end
+
+#call ls=range "48" "56"
+#for l ls
+#call execute "insert_square" "{'gid':'%(gid)s', 'bid':'%(bid)s', 'lid':'%(l)s', 'p':'5', 'color':'1'}"
+#end
+
+#local unused "{56, 57, 58, 59, 60, 61, 62, 63}"
+#for i "('56', '57')"
+#call l=randrange i "64" "2"
+#call execute "insert_square" "{'gid':'%(gid)s', 'bid':'%(bid)s', 'lid':'%(l)s', 'p':'3', 'color':'1'}"
+#call _=remove unused l
+#local 1 unused "%(_)s"
+#end
+
+#call l=choice unused
+#call execute "insert_square" "{'gid':'%(gid)s', 'bid':'%(bid)s', 'lid':'%(l)s', 'p':'1', 'color':'1'}"
+#call _=remove unused l
+#local unused "%(_)s"
+
+#for i "('0', '1')"
+#call l=choice unused
+#call execute "insert_square" "{'gid':'%(gid)s', 'bid':'%(bid)s', 'lid':'%(l)s', 'p':'4', 'color':'1'}"
+#call _=remove unused l
+#local 1 unused "%(_)s"
+#end
+
+#call sunused=sorted unused
+#for p "('2', '0', '2')"
+#call l=head sunused
+#call execute "insert_square" "{'gid':'%(gid)s', 'bid':'%(bid)s', 'lid':'%(l)s', 'p':'%(p)s', 'color':'1'}"
+#call _=rest sunused
+#local 1 sunused "%(_)s"
+#end
+#end
+"%(gid)s"
+OK

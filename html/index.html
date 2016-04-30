@@ -2,10 +2,20 @@
 #include "/conf/def.conf"
 <head>
   <title>%(PROJECT_NAME)s</title>
-	<link rel="shortcut icon" href="img/chess.ico">
+  <link rel="shortcut icon" href="img/chess.ico">
+  <link rel="stylesheet" href="css/chess.css">
+  <script src="js/chess.js"></script>
 </head>
 <body>
-  <div>
-    <div>Name: </div> <input type="text"></input>
+  <div class="content">
+    <div class="game" style="display: none;">
+#local name "board0"
+      #include "board.html"
+      <div class="hspace"></div>
+#local name "board1"
+      #include "board.html"
+    </div>
+    <div class="list">
+    </div>
   </div>
 </body>
