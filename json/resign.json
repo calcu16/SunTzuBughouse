@@ -1,0 +1,6 @@
+#include "200.json"
+#call gid=getField "gid"
+#call sid=getField "sid"
+#call uid=getField "uid"
+#call qargs=toDict "gid" gid "sid" sid "uid" uid
+#call execute "resign" qargs

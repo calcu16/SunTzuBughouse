@@ -1,0 +1,10 @@
+#include "200.json"
+#call gid=getField "gid"
+#call bid=getField "bid"
+#call sid=getField "sid"
+#call uvl=getField "uid"
+#call qargs=toDict "value" uvl
+#call uid=queryScalar "get_uid" qargs
+#call qargs=toDict "uid" uid "bid" bid "sid" sid "gid" gid
+#call execute "join" qargs
+{ "status" : "OK" }

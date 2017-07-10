@@ -1,0 +1,17 @@
+<div class="center">
+  <div id="%(name)s_0_clock">5:00</div>
+  <div onclick="resign();">resign</div>
+#call ps=range "1" "6"
+#for p ps
+  <div id="%(name)s_%(p)s" onclick="drop('%(name)s', '%(p)s');">
+    <input type="hidden" id="%(name)s_%(p)s_lid" value="" />
+    <div id="%(name)s_%(p)s_piece">
+    </div>
+    <div id="%(name)s_%(p)s_x">
+    </div>
+    <div id="%(name)s_%(p)s_count">
+    </div>
+  </div>
+#end
+  <div id="%(name)s_1_clock">5:00</div>
+</div>

@@ -1,21 +1,35 @@
 #inside "html5.html"
 #include "/conf/def.conf"
 <head>
+  <meta charset="utf-8"/>
   <title>%(PROJECT_NAME)s</title>
   <link rel="shortcut icon" href="img/chess.ico">
   <link rel="stylesheet" href="css/chess.css">
+  <script src="js/functional.js"></script>
+  <script src="js/style.js"></script>
+  <script src="js/user.js"></script>
+  <script src="js/lobby.js"></script>
   <script src="js/chess.js"></script>
 </head>
 <body>
   <div class="content">
-    <div class="game" style="display: none;">
+    <div class="name">Name: <input type="text" id="name" onchange="USER.set_remote_name();"/ ></div>
+    <div class="game" id="game" style="display: none;">
+      <input type="hidden" id="gid" value="" />
+      <input type="hidden" id="bid" value="" />
+      <input type="hidden" id="sid" value="" />
 #local name "board0"
       #include "board.html"
+      #include "center.html"
       <div class="hspace"></div>
 #local name "board1"
+      #include "center.html"
       #include "board.html"
     </div>
-    <div class="list">
+    <div id="lobby">
+      <input type="button" value="New Game" onclick="LOBBY.new_game();"/>
+      <div class="list" id="open">
+      </div>
     </div>
   </div>
 </body>

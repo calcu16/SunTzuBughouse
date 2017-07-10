@@ -1,4 +1,8 @@
 select l_bid as board, l_lid as square, l_pid + c_unicode_offset as piece
   from locations
   join colors on l_cid = c_cid
-  where l_gid=:gid and ((l_bid=0) != (l_cid=:team) or l_visible);
+  join entrants on l_gid = e_gid
+  join users on e_uid = u_uid
+  join boards on l_bid = b_bid and b_sid = e_sid
+  join games on g_gid = l_gid
+  where l_gid=:gid and u_value=:uid and (l_cid = b_cid or l_visible) and g_result is NULL;

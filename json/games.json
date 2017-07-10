@@ -1,11 +1,6 @@
 #include "200.json"
-#call gid=getField "gid"
-#if gid
-#call entrants=query "entrants" "{'gid':%(gid)s}"
-#local 1 result "%(entrants)s"
-#else
-#call games=query "games"
-#local 1 result "%(games)s"
-#end
-#call text=toJSON result
-%(text)s
+#call result=query "games"
+#call games=toJSON result
+#call result=query "entrants"
+#call entrants=toJSON result
+{"games": %(games)s, "entrants": %(entrants)s}

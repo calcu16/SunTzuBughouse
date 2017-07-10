@@ -1,0 +1,20 @@
+#include "200.json"
+#call gid=getField "gid"
+#call bid=getField "bid"
+#call sid=getField "sid"
+#call uid=getField "uid"
+#call slid=getField "slid"
+#call elid=getField "elid"
+#call qargs=toDict "gid" gid "uid" uid "slid" slid "elid" elid "bid" bid "sid" sid "now" now
+#call execute "create_turns" qargs
+#call check=query "check_move" qargs
+#call result=toJSON check
+#for _ check
+ #call tomb=queryScalar "find_tomb" qargs
+ #call qargs=toDict "gid" gid "uid" uid "slid" slid "elid" elid "tomb" tomb "bid" bid "sid" sid "now" now
+ #call execute "capture" qargs
+ #call execute "update_location" qargs
+ #call execute "increment_turns" qargs
+ #call execute "update_visibility" qargs
+#end
+%(result)s

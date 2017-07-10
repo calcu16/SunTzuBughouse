@@ -1,0 +1,6 @@
+#include "200.json"
+#call uid=getField "uid"
+#call qargs=toDict "uid" uid
+#call result=queryRow "active_game" qargs
+#call game=toJSON result
+%(game)s

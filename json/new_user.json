@@ -1,6 +1,10 @@
 #include "200.json"
 #call value=getField "uid"
-"%(value)s"
-#ifndef NDEBUG
-#call execute "new_user" "('%(value)s',)"
-#endif
+#call qargs=toDict "value" value
+#call execute "new_user" qargs
+#call names=query "get_user" qargs
+{
+#for names
+  "name" : "%(name)s"
+#end
+}

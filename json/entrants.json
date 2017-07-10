@@ -1,0 +1,4 @@
+#include "200.json"
+#call result=query "entrants"
+#call text=toJSON result
+%(text)s

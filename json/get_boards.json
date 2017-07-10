@@ -1,6 +1,12 @@
 #include "200.json"
 #call gid=getField "gid"
-#call team=getField "team"
-#call boards=query "get_boards" "{'gid':%(gid)s, 'team':%(team)s}"
+#call uid=getField "uid"
+#call qargs=toDict "gid" gid "uid" uid "now" now
+#call boards=query "get_boards" qargs
 #call text=toJSON boards
-%(text)s
+{
+"board": %(text)s,
+#call clocks=query "get_clocks" qargs
+#call text=toJSON clocks
+"clocks": %(text)s
+}

@@ -1,0 +1,8 @@
+#include "200.json"
+#call uid=getField "uid"
+#call name=getField "name"
+#call qargs=toDict "value" uid
+#call execute "new_user" qargs
+#call qargs=toDict "uid" uid "name" name
+#call execute "set_name" qargs
+{ "status" : "OK" }

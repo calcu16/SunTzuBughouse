@@ -2,7 +2,6 @@
 #ifdef gid
 "%(gid)s"
 #end
-#ifndef NDEBUG
 #call gid=execute "new_game"
 #define 0 gid "%(gid)s"
 
@@ -73,5 +72,4 @@
 #local 1 sunused "%(_)s"
 #end
 #end
-"%(gid)s"
-OK
+{"gid": "%(gid)s"}

@@ -1,4 +1,4 @@
-# Copyright (c) 2012 Andrew Carter
+# Copyright (c) 2012, 2017 Andrew Carter
 # All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
@@ -39,6 +39,7 @@ def setup():
   from .pypp import preprocess
   from random import choice, randrange
   from sys import exit
+  from time import time
 
   class DecimalEncoder(JSONEncoder):
     def default(self, obj):
@@ -120,13 +121,6 @@ def setup():
     values['__COOKIES__'] = new_cookies.output(sep = '\n')
     values['getField'] = getField
     folder = name.rsplit(".", 1)[1]
-    try:
-      values.update(preprocess(path.join(folder, name), values, None, root="./"))
-    except IOError as e:
-      if e.errno == 2:
-        error(name, 404)
-      else:
-        raise
     values['NDEBUG'] = 'True'
     preprocess(path.join(folder, name), values, root="./")
     close_conn()
@@ -179,6 +173,8 @@ def setup():
     'head': literal_args(lambda l : l[0]),
     'rest': literal_args(lambda l :l[1:]),
     'toJSON': literal_args(toJSON),
+    'toDict': (lambda *l: dict(zip(l[0::2], l[1::2]))),
+    'now': int(time()),
   }
   values['site_path'] = path.dirname(environ['SCRIPT_NAME'])
   values['file_path'] = environ['REDIRECT_URL'][len(values['site_path']):]

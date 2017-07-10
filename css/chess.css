@@ -13,6 +13,23 @@ div.game {
 div.controls {
   position: relative;
 }
+div.center {
+  top: 10px;
+  position: relative;
+  display: inline-block;
+  vertical-align: top;
+}
+div.center div {
+  height: 60px;
+  font-size: 40px;
+  margin: 2px 0px 1px 0px;
+}
+div.center div div {
+  height: 100%;
+  display: inline-block;
+  position: relative;
+  margin: 0px;
+}
 div.board {
   position: relative;
   display: inline-block;
@@ -28,6 +45,8 @@ table.board td {
   height:80px;
   width:80px;
   color:#000;
+  padding:0px;
+  border-spacing:0px;
   font-size:60px;
   text-align:center;
   vertical-align:middle;
