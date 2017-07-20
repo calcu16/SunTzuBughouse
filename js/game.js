@@ -4,7 +4,13 @@ var GAME = {
   CHESS_OFFSET : 9812,
   COLOR_OFFSET : { "W" : 0, "B" : 6 },
   DISPLAYS : [
+    { "window": 400, "square": 20, "top": 6 },
+    { "window": 650, "square": 30, "top": 6 },
+    { "window": 900, "square": 40, "top": 6 },
+    { "window": 1150, "square": 50, "top": 6 },
     { "window": 1400, "square": 60, "top": 6 },
+    { "window": 1650, "square": 70, "top": 6 },
+    { "window": 1900, "square": 80, "top": 6 }
   ],
   set_display : function() {
     var i = 1;
@@ -19,10 +25,10 @@ var GAME = {
     style.fontSize = fontSize + "px";
     style.height = display.square + "px";
     style.width = display.square + "px";
-    
+
     style = document.getStyleBySelectorText("div.center");
     style.top = display.top + "px";
-  
+
     style = document.getStyleBySelectorText("div.center div");
     style.height = display.square + "px";
     style.fontSize = fontSize + "px";
