@@ -4,10 +4,12 @@ select :elid
   join entrants on e_gid=l_gid and e_bid=l_bid
   join boards on b_bid=e_bid and b_cid=l_cid and b_sid=e_sid
   join games on g_gid=l_gid
-  join turns on t_gid=l_gid and t_bid=b_bid and t_turns%%g_sides=b_cid
+  join turns on t_gid=l_gid and t_bid=b_bid and t_sid=b_sid
   join users on u_uid=e_uid
   join pieces on p_pid=l_pid
   where l_gid=:gid and u_value=:uid and l_lid=:slid
+    and (select COUNT(*) from turns t where t.t_gid=l_gid and t.t_bid=b_bid and t.t_turns<turns.t_turns)=0
+    and (select COUNT(*) from turns t where t.t_gid=l_gid and t.t_bid=b_bid and t.t_turns>turns.t_turns)=b_cid
     and l_lid<0 and 0<=CAST(:elid as INTEGER) and CAST(:elid as INTEGER)<64
 -- check that the drop is valid for the pieces
     and p_min_drop<=CAST(:elid as INTEGER) and CAST(:elid as INTEGER)<p_max_drop

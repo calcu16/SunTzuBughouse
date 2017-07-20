@@ -39,6 +39,20 @@ var LOBBY = {
     FUNCTIONAL.ajax("join.json", "POST", args, null, active_game);
   },
   new_game: function() {
-    FUNCTIONAL.ajax("new_game.json", "POST", null, null, LOBBY.get_open_games);
+    var tc = document.getElementById("timeControl").value.split(":")
+    var tcs = 0;
+    for (var i = 0; i < tc.length; ++i) {
+      tcs *= 60;
+      tcs += parseInt(tc[i]);
+    }
+    var v = "start";
+    var rv = document.getElementsByName("visibility");
+    for (var i = 0; i < rv.length; ++i) {
+      if (rv[i].checked) {
+        v = rv[i].value;
+      }
+    }
+    var args = { "timeControl": tcs, "visibility" : v };
+    FUNCTIONAL.ajax("new_game.json", "POST", args, null, LOBBY.get_open_games);
   }
 }

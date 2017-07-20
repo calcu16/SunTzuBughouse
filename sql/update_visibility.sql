@@ -16,12 +16,13 @@ update locations
           select * from locations il
           where il.l_gid=sl.l_gid and il.l_bid=sl.l_bid and (il.l_lid-sl.l_lid)%%m_delta=0 and (il.l_lid-sl.l_lid)/m_delta>0 and (il.l_lid-sl.l_lid)/m_delta<(locations.l_lid-sl.l_lid)/m_delta
         )
-        and locations.l_cid!=sl.l_cid and locations.l_bid=sl.l_bid
+        and locations.l_cid!=sl.l_cid and locations.l_bid=sl.l_bid and sl.l_gid=locations.l_gid
   )
   where l_gid=:gid
   and exists (
     select * from entrants 
     join users on e_uid=u_uid
-    join boards on b_bid=l_bid and e_sid=b_sid and b_cid=l_cid
-    where l_gid=e_gid and u_value=:uid
+    join games on g_gid = e_gid
+    join boards on b_bid=l_bid and b_sid=e_sid and (b_cid=l_cid or g_visibility='always')
+    where e_gid=l_gid and e_bid=l_bid and u_value=:uid
   );

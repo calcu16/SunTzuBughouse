@@ -27,7 +27,13 @@
       #include "board.html"
     </div>
     <div id="lobby">
-      <input type="button" value="New Game" onclick="LOBBY.new_game();"/>
+      <div id="newGame">
+        Time Control:<input type="text" id="timeControl" value="5:00"></input><br/>
+        Visibility:
+        Turn Start<input type="radio" value="start" name="visibility" checked="checked"></input>
+        Always<input type="radio" value="always" name="visibility"></input></br/>
+        <input type="button" value="New Game" onclick="LOBBY.new_game();"/>
+      </div>
       <div class="list" id="open">
       </div>
     </div>

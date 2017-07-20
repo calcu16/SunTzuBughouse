@@ -1,5 +1,5 @@
 update locations
-  set l_lid=:tomb, l_visible=0, l_bid=1-l_bid
+  set l_lid=:tomb, l_visible=0, l_bid=1-l_bid, l_pid=l_bpid
   where l_lid=:elid
     and exists (
       select * from entrants 

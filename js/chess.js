@@ -62,7 +62,7 @@ function populate_board(vc) {
   for (var i = 0; i < v.length; ++i) {
     if (v[i]["square"] >= 0) {
       get_td(v[i]["board"], v[i]["square"]).innerHTML = "&#" + v[i]["piece"];
-    } else {
+    } else if ((v[i]["piece"] - CHESS_OFFSET) % 6 != 0) {
       var j = (v[i]["piece"] - CHESS_OFFSET) % 6;
       var b = v[i]["board"];
       if (get_center(b, j, "count").innerHTML != "") {
@@ -76,8 +76,10 @@ function populate_board(vc) {
     }
   }
   for (var i = 0; i < c.length; ++i) {
+    var fw = "normal";
     if (c[i].lt == 0 && c[i].gt == c[i].color) {
       c[i].time -= c[i].elapsed;
+      fw = "bold";
     }
     var m = Math.floor(c[i].time / 60);
     var s = (c[i].time % 60) + "";
@@ -90,6 +92,7 @@ function populate_board(vc) {
       c[i].color = 1 - c[i].color;
     }
     get_center(c[i].board, c[i].color, "clock").innerHTML = text;
+    get_center(c[i].board, c[i].color, "clock").style.fontWeight = fw;
   }
 }
 

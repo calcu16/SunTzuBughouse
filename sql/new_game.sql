@@ -1,1 +1,1 @@
-insert into games default values;
+insert into games (g_time, g_visibility) values (:timeControl, :visibility);

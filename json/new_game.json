@@ -1,8 +1,8 @@
 #include "200.json"
-#ifdef gid
-"%(gid)s"
-#end
-#call gid=execute "new_game"
+#call v=getField "visibility"
+#call tc=getField "timeControl"
+#call qargs=toDict "visibility" v "timeControl" tc
+#call gid=execute "new_game" qargs
 #define 0 gid "%(gid)s"
 
 #for bid "('0', '1')"

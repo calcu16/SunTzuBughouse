@@ -4,6 +4,7 @@ CREATE TABLE games (
   g_sides INTEGER DEFAULT (2), -- Number of sides in the game
   g_time INTEGER DEFAULT (300), -- Amount of time in a game
   g_delay INTEGER DEFAULT (0), -- Amount of time in a game
+  g_visibility TEXT DEFAULT ('start'), -- When to update visibility 
   g_increment INTEGER DEFAULT (0), -- Amount of time in a game
   g_result INTEGER DEFAULT (NULL) -- The winner of the game (NULL for still in progress)
 );
