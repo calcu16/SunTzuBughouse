@@ -1,0 +1,28 @@
+#inside "html5.html"
+#include "/conf/def.conf"
+<head>
+  <meta charset="utf-8"/>
+  <title>%(PROJECT_NAME)s</title>
+  <link rel="shortcut icon" href="img/chess.ico">
+  <link rel="stylesheet" href="css/chess.css">
+  <script src="js/functional.js"></script>
+  <script src="js/style.js"></script>
+  <script src="js/user.js"></script>
+  <script src="js/lobby.js"></script>
+</head>
+<body>
+  <div class="content">
+    <div class="name">Name: <input type="text" id="name" onchange="USER.set_remote_name();"/ ></div>
+    <div id="lobby">
+      <div id="newGame">
+        Time Control:<input type="text" id="timeControl" value="5:00"></input><br/>
+        Visibility:
+        Turn Start<input type="radio" value="start" name="visibility" checked="checked"></input>
+        Always<input type="radio" value="always" name="visibility"></input></br/>
+        <input type="button" value="New Game" onclick="LOBBY.new_game();"/>
+      </div>
+      <div class="list" id="open">
+      </div>
+    </div>
+  </div>
+</body>

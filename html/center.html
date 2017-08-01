@@ -1,9 +1,9 @@
 <div class="center">
   <div id="%(name)s_0_clock">-:--</div>
-  <div onclick="resign();">resign</div>
+  <div onclick="GAME.resign();">resign</div>
 #call ps=range "1" "6"
 #for p ps
-  <div id="%(name)s_%(p)s" onclick="drop('%(name)s', '%(p)s');">
+  <div id="%(name)s_%(p)s" onclick="GAME.drop('%(name)s', '%(p)s');">
     <input type="hidden" id="%(name)s_%(p)s_lid" value="" />
     <div id="%(name)s_%(p)s_piece">
     </div>

@@ -16,5 +16,6 @@
  #call execute "update_location" qargs
  #call execute "increment_turns" qargs
  #call execute "update_visibility" qargs
+ #call execute "king_capture" qargs
 #end
 %(result)s

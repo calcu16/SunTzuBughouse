@@ -8,10 +8,19 @@
   <script src="js/functional.js"></script>
   <script src="js/style.js"></script>
   <script src="js/user.js"></script>
-  <script src="js/chess.js"></script>
+  <script src="js/game.js"></script>
 </head>
 <body>
   <div class="content">
     <div class="name">Name: <input type="text" id="name" onchange="USER.set_remote_name();"/ ></div>
+    <div><a href="lobby.html">Lobby</a></div>
+#local name "board0"
+      #include "board.html"
+      #include "center.html"
+      <div class="hspace"></div>
+#local name "board1"
+      #include "center.html"
+      #include "board.html"
+    </div>
   </div>
 </body>

@@ -36,7 +36,7 @@ var LOBBY = {
   },
   join_game : function(gid, bid, sid) {
     var args = { "uid" : localStorage.uid, "gid" : gid, "bid" : bid, "sid" : sid }
-    FUNCTIONAL.ajax("join.json", "POST", args, null, active_game);
+    FUNCTIONAL.ajax("join.json", "POST", args, null, function() {  window.location.replace("game.html?gid=" + gid + "&bid=" + bid + "&sid=" + sid); });
   },
   new_game: function() {
     var tc = document.getElementById("timeControl").value.split(":")
@@ -54,5 +54,16 @@ var LOBBY = {
     }
     var args = { "timeControl": tcs, "visibility" : v };
     FUNCTIONAL.ajax("new_game.json", "POST", args, null, LOBBY.get_open_games);
+  },
+  setup : function() {
+    var args = { "uid" : USER.uid() };
+    FUNCTIONAL.ajax("new_user.json", "POST", args, null, USER.set_local_name);
+
+    LOBBY.update();
+  },
+  update : function() {
+    LOBBY.get_open_games();
+    setTimeout(LOBBY.update, 1000);
   }
 }
+document.addEventListener("DOMContentLoaded", LOBBY.setup)
