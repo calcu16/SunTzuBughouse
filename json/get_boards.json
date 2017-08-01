@@ -8,5 +8,8 @@
 "board": %(text)s,
 #call clocks=query "get_clocks" qargs
 #call text=toJSON clocks
-"clocks": %(text)s
+"clocks": %(text)s,
+#call names=query "get_names" qargs
+#call text=toJSON names
+"names": %(text)s
 }

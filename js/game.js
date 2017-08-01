@@ -46,6 +46,7 @@ var GAME = {
   populate_board : function(vc) {
     var v = vc.board;
     var c = vc.clocks;
+    var n = vc.names;
     for (var b = 0; b < 2; ++b) {
       for (var i = 0; i < 64; ++i) {
         GAME.get_td(b, i).innerHTML = "";
@@ -90,6 +91,11 @@ var GAME = {
       }
       GAME.get_center(c[i].board, c[i].color, "clock").innerHTML = text;
       GAME.get_center(c[i].board, c[i].color, "clock").style.fontWeight = fw;
+    }
+    for (var i = 0; i < n.length; ++i) {
+      var sid = n[i].side == GAME.param("sid") ? 1 : 0;
+      var bid = n[i].board == GAME.param("bid") ? 0 : 1;
+      document.getElementById("board" + bid + "_" + sid + "_name").innerText = n[i].name;
     }
   },
   get_current_board : function() {

@@ -10,6 +10,12 @@
 div.game {
   position: relative;
 }
+div.clock {
+  font-family: monospace;
+}
+div.board div.name {
+  text-align: center;
+}
 div.controls {
   position: relative;
 }
