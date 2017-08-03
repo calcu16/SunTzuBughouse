@@ -15,7 +15,7 @@ var GAME = {
   set_display : function() {
     var i = 1;
     for (; i < GAME.DISPLAYS.length; ++i) {
-      if (window.innerWidth < DISPLAYS[i].window) {
+      if (window.innerWidth < GAME.DISPLAYS[i].window) {
         break;
       }
     }
@@ -33,7 +33,7 @@ var GAME = {
     style.height = display.square + "px";
     style.fontSize = fontSize + "px";
   },
-  param : function(s) { return new URLSearchParams(window.location.search).get(s); },
+  param : function(s) { return new URLSearchParams(window.location.search.substring(1)).get(s); },
   get_td : function(bid, lid) {
     if (GAME.param("sid") == bid) {
       lid = 63 - lid;
