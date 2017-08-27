@@ -4,3 +4,4 @@
 #call uid=getField "uid"
 #call qargs=toDict "gid" gid "sid" sid "uid" uid
 #call execute "resign" qargs
+{}

@@ -1,4 +1,4 @@
-# Copyright (c) 2012 Andrew Carter
+# Copyright (c) 2012, 2017 Andrew Carter
 # All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
@@ -25,13 +25,17 @@
 # of the authors and should not be interpreted as representing official policies,
 # either expressed or implied, of the FreeBSD Project.
 
-from .html import setup
-setup()
+def randrange(seed, start, end, inc):
+  l = (end + inc - start - 1) // inc
+  return (seed // l, start + inc * (seed % l))
 
-def run():
-  # your code here
-  from .html import serve, values
-  if values['file_path'][0] == '/':
-    values['file_path'] = values['file_path'][1:]
+def chooseN(seed, n, xs):
+  def listChooseN(s, e, n):
+    if not n: return [[]]
+    return [([i] + l)  for i in range(s, e) for l in listChooseN(i + 1, e, n - 1)]
 
-  serve(values['file_path'])
+  xs = list(sorted(xs))
+  elems = listChooseN(0, len(xs), n)
+  elem = elems[seed % len(elems)]
+  return (seed // len(elems), tuple(xs[j] for j in elem), tuple(x for (k,x) in enumerate(xs) if k not in elem))
+  

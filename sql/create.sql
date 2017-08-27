@@ -6,15 +6,18 @@ CREATE TABLE games (
   g_delay INTEGER DEFAULT (0), -- Amount of time in a game
   g_visibility TEXT DEFAULT ('start'), -- When to update visibility 
   g_increment INTEGER DEFAULT (0), -- Amount of time in a game
-  g_result INTEGER DEFAULT (NULL) -- The winner of the game (NULL for still in progress)
+  g_result INTEGER DEFAULT (NULL), -- The winner of the game (NULL for still in progress)
+  g_start INTEGER DEFAULT (NULL), -- time the game started
+  g_end INTEGER DEFAULT (NULL) -- time the game ended
 );
 
 CREATE TABLE turns (
   t_gid INTEGER NOT NULL,
   t_bid INTEGER NOT NULL,
   t_sid INTEGER NOT NULL,
+  t_pos INTEGER NOT NULL, -- the start position of the game
   t_turns INTEGER DEFAULT (0), -- number of moves made on a particular board in a game by a particular side
-  t_time INTEGER,
+  t_time INTEGER, -- the amount of time left
   t_timestamp INTEGER, -- time of last move
   PRIMARY KEY (t_gid, t_bid, t_sid)
 );
@@ -72,22 +75,15 @@ CREATE TABLE locations (
   FOREIGN KEY (l_cid) REFERENCES colors (c_id)
 );
 
-CREATE TABLE record (
+CREATE TABLE records (
   r_rid INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
   r_gid INTEGER NOT NULL,
-  r_cid INTEGER NOT NULL,
-  r_sbid INTEGER NOT NULL,
+  r_bid INTEGER NOT NULL,
+  r_sid INTEGER NOT NULL,
   r_slid INTEGER NOT NULL,
-  r_ebid INTEGER NOT NULL,
-  r_elid INTEGER NOT NULL
+  r_elid INTEGER NOT NULL,
+  r_tomb INTEGER NOT NULL
 );
-
-CREATE TRIGGER record_move AFTER UPDATE ON locations FOR EACH ROW
-  WHEN OLD.l_bid != NEW.l_bid or OLD.l_lid != NEW.l_lid
-BEGIN
-  INSERT INTO record (r_gid, r_cid, r_sbid, r_slid, r_ebid, r_elid)
-    values (NEW.l_gid, OLD.l_cid, OLD.l_bid, OLD.l_lid, NEW.l_bid, NEW.l_lid);
-END;
 
 CREATE TABLE users (
   u_uid INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,

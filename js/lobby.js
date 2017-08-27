@@ -52,7 +52,27 @@ var LOBBY = {
         v = rv[i].value;
       }
     }
+    var s = "random";
+    var rs = document.getElementsByName("start");
+    for (var i = 0; i < rs.length; ++i) {
+      if (rs[i].checked) {
+        s = rs[i].value;
+      }
+    }
     var args = { "timeControl": tcs, "visibility" : v };
+    if (s == "random") ;
+    else if (s == "colors") {
+      args["mirror_color"] = "True";
+    } else if (s == "teams") {
+      args["mirror_team"] = "True";
+    } else if (s == "boards") {
+      args["mirror_board"] = "True";
+    } else if (s == "everything") {
+      args["mirror_color"] = "True";
+      args["mirror_board"] = "True";
+    } else if (s == "standard") {
+      args["standard"] = "True";
+    }
     FUNCTIONAL.ajax("new_game.json", "POST", args, null, LOBBY.get_open_games);
   },
   setup : function() {

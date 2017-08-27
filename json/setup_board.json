@@ -1,0 +1,24 @@
+#call execute "create_turns" "{'gid':'%(gid)s', 'pos':'%(r)s', 'bid':'%(bid)s', 'cid':'%(color)s'}"
+#ifdef main
+#for l pawns
+#call execute "insert_square" "{'gid':'%(gid)s', 'bid':'%(bid)s', 'lid':'%(l)s', 'p':'5', 'color':'%(color)s'}"
+#end
+#for i s2 
+#call 1 r,l=randrange r i "%(last)s" "2"
+#call execute "insert_square" "{'gid':'%(gid)s', 'bid':'%(bid)s', 'lid':'%(l)s', 'p':'3', 'color':'%(color)s'}"
+#call 1 unused=remove unused l
+#end
+#call r,ls,unused=chooseN r "1" unused
+#for l ls
+#call execute "insert_square" "{'gid':'%(gid)s', 'bid':'%(bid)s', 'lid':'%(l)s', 'p':'1', 'color':'%(color)s'}"
+#end
+#call r,ls,unused=chooseN r "2" unused
+#for l ls
+#call execute "insert_square" "{'gid':'%(gid)s', 'bid':'%(bid)s', 'lid':'%(l)s', 'p':'4', 'color':'%(color)s'}"
+#end
+#call unused=sorted unused
+#for p "('2', '0', '2')"
+#call 1 l,unused=pop unused
+#call execute "insert_square" "{'gid':'%(gid)s', 'bid':'%(bid)s', 'lid':'%(l)s', 'p':'%(p)s', 'color':'%(color)s'}"
+#end
+#end

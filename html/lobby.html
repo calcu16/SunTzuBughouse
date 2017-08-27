@@ -19,7 +19,14 @@
         Visibility:
         Turn Start<input type="radio" value="start" name="visibility" checked="checked"></input>
         Always<input type="radio" value="always" name="visibility"></input></br/>
-        <input type="button" value="New Game" onclick="LOBBY.new_game();"/>
+        Starting Position:
+        All Random<input type="radio" value="random" name="start" checked="checked"></input>
+        Mirror Colors<input type="radio" value="colors" name="start"></input>
+        Mirror Boards<input type="radio" value="boards" name="start"></input>
+        Mirror Teams<input type="radio" value="teams" name="start"></input>
+        Chess 960<input type="radio" value="everything" name="start"></input>
+        Standard<input type="radio" value="standard" name="start"></input><br/>
+        <input type="button" value="New Game" onclick="LOBBY.new_game();"/><br/>
       </div>
       <div class="list" id="open">
       </div>

@@ -31,15 +31,16 @@ def setup():
   from http.cookies import CookieError, SimpleCookie
   from cgi import FieldStorage
   from datetime import datetime
-  from .db import sql
   from decimal import Decimal
   from json import JSONEncoder
   from os import environ, path
   from pickle import dumps, loads, UnpicklingError
-  from .pypp import preprocess
-  from random import choice, randrange
+  from random import randint
   from sys import exit
   from time import time
+  from .db import sql
+  from .pseudorandom import randrange, chooseN
+  from .pypp import preprocess
 
   class DecimalEncoder(JSONEncoder):
     def default(self, obj):
@@ -166,12 +167,12 @@ def setup():
     'queryRow' : conn.queryRow,
     'queryScalar' : conn.queryScalar,
     'range': literal_args(range),
+    'randint': literal_args(randint),
     'randrange': literal_args(randrange),
-    'choice': literal_args(lambda l: choice(list(l))),
+    'chooseN': literal_args(chooseN),
     'remove': literal_args(lambda s, v : s - { v }),
     'sorted': literal_args(sorted),
-    'head': literal_args(lambda l : l[0]),
-    'rest': literal_args(lambda l :l[1:]),
+    'pop': literal_args(lambda l : (l[0], l[1:])),
     'toJSON': literal_args(toJSON),
     'toDict': (lambda *l: dict(zip(l[0::2], l[1::2]))),
     'now': int(time()),

@@ -1,6 +1,6 @@
 update locations
-  set l_lid=:tomb, l_visible=0, l_bid=1-l_bid
-  where l_lid=:slid
+  set l_lid=:tomb, l_visible=0, l_bid=1-l_bid, l_pid=l_bpid
+  where l_lid=:slid and l_lid<0
     and exists (
       select * from entrants 
       join users on u_uid=e_uid

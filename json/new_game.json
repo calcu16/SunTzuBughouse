@@ -1,75 +1,51 @@
 #include "200.json"
+#define main "new_game"
 #call v=getField "visibility"
 #call tc=getField "timeControl"
+#call standard=getField "standard"
+#call mirror_color=getField "mirror_color"
+#call mirror_board=getField "mirror_board"
+#call mirror_team=getField "mirror_team"
 #call qargs=toDict "visibility" v "timeControl" tc
 #call gid=execute "new_game" qargs
+#if standard
+#define rw0 "537"
+#define rb0 "537"
+#define rw1 "537"
+#define rb1 "537"
+#else
+#call 0 rw0=randint "0" "959"
+#call 0 rb0=randint "0" "959"
+#call 0 rw1=randint "0" "959"
+#call 0 rb1=randint "0" "959"
+#end
+#if mirror_color
+#define rw1 "%(rw0)s"
+#define rb1 "%(rb0)s"
+#end
+#if mirror_board
+#define rb0 "%(rw0)s"
+#define rb1 "%(rw1)s"
+#end
+#if mirror_team
+#define rb0 "%(rw1)s"
+#define rb1 "%(rw0)s"
+#end
 #define 0 gid "%(gid)s"
-
-#for bid "('0', '1')"
-#call ls=range "8" "16"
-#for l ls
-#call execute "insert_square" "{'gid':'%(gid)s', 'bid':'%(bid)s', 'lid':'%(l)s', 'p':'5', 'color':'0'}"
-#end
-
-#local unused "{0, 1, 2, 3, 4, 5, 6, 7}"
-#for i "('0', '1')"
-#call l=randrange i "8" "2"
-#call execute "insert_square" "{'gid':'%(gid)s', 'bid':'%(bid)s', 'lid':'%(l)s', 'p':'3', 'color':'0'}"
-#call _=remove unused l
-#local 1 unused "%(_)s"
-#end
-
-#call l=choice unused
-#call execute "insert_square" "{'gid':'%(gid)s', 'bid':'%(bid)s', 'lid':'%(l)s', 'p':'1', 'color':'0'}"
-#call _=remove unused l
-#local unused "%(_)s"
-
-#for i "('0', '1')"
-#call l=choice unused
-#call execute "insert_square" "{'gid':'%(gid)s', 'bid':'%(bid)s', 'lid':'%(l)s', 'p':'4', 'color':'0'}"
-#call _=remove unused l
-#local 1 unused "%(_)s"
-#end
-
-#call sunused=sorted unused
-#for p "('2', '0', '2')"
-#call l=head sunused
-#call execute "insert_square" "{'gid':'%(gid)s', 'bid':'%(bid)s', 'lid':'%(l)s', 'p':'%(p)s', 'color':'0'}"
-#call _=rest sunused
-#local 1 sunused "%(_)s"
-#end
-
-#call ls=range "48" "56"
-#for l ls
-#call execute "insert_square" "{'gid':'%(gid)s', 'bid':'%(bid)s', 'lid':'%(l)s', 'p':'5', 'color':'1'}"
-#end
-
-#local unused "{56, 57, 58, 59, 60, 61, 62, 63}"
-#for i "('56', '57')"
-#call l=randrange i "64" "2"
-#call execute "insert_square" "{'gid':'%(gid)s', 'bid':'%(bid)s', 'lid':'%(l)s', 'p':'3', 'color':'1'}"
-#call _=remove unused l
-#local 1 unused "%(_)s"
-#end
-
-#call l=choice unused
-#call execute "insert_square" "{'gid':'%(gid)s', 'bid':'%(bid)s', 'lid':'%(l)s', 'p':'1', 'color':'1'}"
-#call _=remove unused l
-#local unused "%(_)s"
-
-#for i "('0', '1')"
-#call l=choice unused
-#call execute "insert_square" "{'gid':'%(gid)s', 'bid':'%(bid)s', 'lid':'%(l)s', 'p':'4', 'color':'1'}"
-#call _=remove unused l
-#local 1 unused "%(_)s"
-#end
-
-#call sunused=sorted unused
-#for p "('2', '0', '2')"
-#call l=head sunused
-#call execute "insert_square" "{'gid':'%(gid)s', 'bid':'%(bid)s', 'lid':'%(l)s', 'p':'%(p)s', 'color':'1'}"
-#call _=rest sunused
-#local 1 sunused "%(_)s"
-#end
+###for "[{'bid':'0','rw':'%(rw0)s','rb':'%(rb0)s'},{'bid':'1','rw':'%(rw1)s','rb':'%(rb1)s'}]"
+#define r "%(rw)s"
+#call pawns=range "8" "16"
+#define unused "{0, 1, 2, 3, 4, 5, 6, 7}"
+#define s2 "(0, 1)"
+#define last "8"
+#define color "0"
+#include "setup_board.json"
+#define r "%(rb)s"
+#call pawns=range "48" "56"
+#define unused "{56, 57, 58, 59, 60, 61, 62, 63}"
+#define s2 "(56, 57)"
+#define last "64"
+#define color "1"
+#include "setup_board.json"
 #end
 {"gid": "%(gid)s"}

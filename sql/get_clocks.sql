@@ -10,4 +10,4 @@ select
   join users on e_uid=u_uid
   join boards on t_bid=b_bid and b_sid=t_sid
   join games on g_gid=t_gid
-  where t_gid=:gid and u_value=:uid and g_result is NULL;
+  where t_gid=:gid and t_timestamp IS NOT NULL and u_value=:uid and g_result is NULL;

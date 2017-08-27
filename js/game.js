@@ -151,12 +151,8 @@ var GAME = {
     if (GAME.ACTIVE == null && square.innerHTML != "" && piece_color == player_color) {
       GAME.ACTIVE = lid;
       square.style.color="red";
-    } else if (GAME.ACTIVE != null && GAME.ACTIVE < 0) {
-      var args = { "uid" : USER.uid(), "gid" : GAME.param("gid"), "slid": GAME.ACTIVE, "elid": lid, "bid": bid, "sid": sid };
-      FUNCTIONAL.ajax("drop.json", "POST", args, null, GAME.get_current_board);
-      GAME.clear_active();
     } else if (GAME.ACTIVE != null) {
-      var args = { "uid" : USER.uid(), "gid" : GAME.param("gid"), "slid": GAME.ACTIVE, "elid": lid, "bid": bid, "sid": sid }
+      var args = { "uid" : USER.uid(), "gid" : GAME.param("gid"), "slid": GAME.ACTIVE, "elid": lid, "bid": bid, "sid": sid };
       FUNCTIONAL.ajax("move.json", "POST", args, null, GAME.get_current_board);
       GAME.clear_active();
     }
