@@ -1,6 +1,8 @@
 var GAME = {
   ACTIVE : null,
+  PREMOVE : null,
   PIECE : null,
+  TURN : false,
   CHESS_OFFSET : 9812,
   COLOR_OFFSET : { "W" : 0, "B" : 6 },
   DISPLAYS : [
@@ -53,6 +55,7 @@ var GAME = {
     var v = vc.board;
     var c = vc.clocks;
     var n = vc.names;
+    GAME.TURN = (GAME.param('bid') == GAME.param('sid'));
     for (var b = 0; b < 2; ++b) {
       for (var i = 0; i < 64; ++i) {
         GAME.get_td(b, i).innerHTML = "";
@@ -95,8 +98,15 @@ var GAME = {
       if (GAME.param("sid") == c[i].board) {
         c[i].color = 1 - c[i].color;
       }
+      if (c[i].board == GAME.param("bid") && c[i].color == 1) {
+        GAME.TURN = (fw == "bold");
+      }
       GAME.get_center(c[i].board, c[i].color, "clock").innerHTML = text;
       GAME.get_center(c[i].board, c[i].color, "clock").style.fontWeight = fw;
+    }
+    if (GAME.PREMOVE != null && GAME.TURN) {
+      FUNCTIONAL.ajax("move.json", "POST", GAME.PREMOVE, null, function() { GAME.get_current_board() });
+      GAME.PREMOVE = null;
     }
     for (var i = 0; i < n.length; ++i) {
       var sid = n[i].side == GAME.param("sid") ? 1 : 0;
@@ -104,9 +114,10 @@ var GAME = {
       document.getElementById("board" + bid + "_" + sid + "_name").innerText = n[i].name;
     }
   },
-  get_current_board : function() {
+  get_current_board : function(next) {
+    if (next == undefined) { next = function() { }; }
     var args = { "gid" : GAME.param("gid"), "uid" : USER.uid() }
-    FUNCTIONAL.ajax("get_boards.json", "GET", args, null, GAME.populate_board);
+    FUNCTIONAL.ajax("get_boards.json", "GET", args, null, FUNCTIONAL.andThen(GAME.populate_board, next));
   },
   resign : function() {
     var args = { "uid" : USER.uid(), "gid" : GAME.param("gid"), "bid": GAME.param("bid"), "sid": GAME.param("sid") };
@@ -125,6 +136,9 @@ var GAME = {
     return false;
   },
   drop : function(name, piece) {
+    if (name != "board0") {
+      return;
+    }
     GAME.clear_active();
   
     GAME.PIECE = name + "_" + piece;
@@ -135,7 +149,12 @@ var GAME = {
     }
     document.getElementById(GAME.PIECE + "_piece").style.color="red";
   },
-  move : function(r, c) {
+  move : function(b, r, c) {
+    if (b != "board0") {
+      return;
+    }
+    GAME.PREMOVE = null;
+    
     var lid = 8 * r + c;
     if (GAME.param("sid") == GAME.param("bid")) {
       lid = 63 - lid;
@@ -153,7 +172,11 @@ var GAME = {
       square.style.color="red";
     } else if (GAME.ACTIVE != null) {
       var args = { "uid" : USER.uid(), "gid" : GAME.param("gid"), "slid": GAME.ACTIVE, "elid": lid, "bid": bid, "sid": sid };
-      FUNCTIONAL.ajax("move.json", "POST", args, null, GAME.get_current_board);
+      if (GAME.TURN) {
+        FUNCTIONAL.ajax("move.json", "POST", args, null, function() { GAME.get_current_board() });
+      } else {
+        GAME.PREMOVE = args;
+      }
       GAME.clear_active();
     }
   },
@@ -164,8 +187,7 @@ var GAME = {
     GAME.update();
   },
   update : function() {
-    GAME.get_current_board();
-    setTimeout(GAME.update, 1000);
+    GAME.get_current_board(function() { setTimeout(GAME.update, 1000); });
   }
 };
 
