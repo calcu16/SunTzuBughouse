@@ -68,6 +68,7 @@ CREATE TABLE locations (
   l_bpid INTEGER NOT NULL,  -- The piece this was originally (used for captures after a promotion)
   l_cid INTEGER NOT NULL,
   l_visible INTEGER NOT NULL DEFAULT (0),
+  l_blocking INTEGER NOT NULL DEFAULT (0),
   PRIMARY KEY (l_gid, l_bid, l_lid, l_cid),
   FOREIGN KEY (l_gid) REFERENCES games (g_gid),
   FOREIGN KEY (l_pid) REFERENCES pieces (p_pid),

@@ -167,7 +167,7 @@ var GAME = {
     var piece_color = Math.floor(square.innerHTML.charCodeAt(0) / (GAME.CHESS_OFFSET + GAME.COLOR_OFFSET.B));
     // TODO: this is a bad way to get color, should get it via the boards table
     var player_color = (sid != bid);
-    if (GAME.ACTIVE == null && square.innerHTML != "" && piece_color == player_color) {
+    if (GAME.ACTIVE == null && square.innerHTML != "" && square.innerHTML.charCodeAt(0) >= GAME.CHESS_OFFSET && piece_color == player_color) {
       GAME.ACTIVE = lid;
       square.style.color="red";
     } else if (GAME.ACTIVE != null) {
