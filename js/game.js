@@ -69,7 +69,7 @@ var GAME = {
     for (var i = 0; i < v.length; ++i) {
       if (v[i]["square"] >= 0) {
         GAME.get_td(v[i]["board"], v[i]["square"]).innerHTML = "&#" + v[i]["piece"];
-      } else if ((v[i]["piece"] - GAME.CHESS_OFFSET) % 6 != 0) {
+      } else if (v[i]["piece"] != 63 && (v[i]["piece"] - GAME.CHESS_OFFSET) % 6 != 0) {
         var j = (v[i]["piece"] - GAME.CHESS_OFFSET) % 6;
         var b = v[i]["board"];
         if (GAME.get_center(b, j, "count").innerHTML != "") {
