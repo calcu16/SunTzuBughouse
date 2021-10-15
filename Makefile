@@ -22,3 +22,6 @@ $(SUBMODULES:%=%/README.md):
 	git submodule update $(@D)
 	cd $(@D) && git checkout master
 
+db/chess.db:
+	@mkdir -p chess.db
+	sqlite3 db/chess.db <sql/create.sql
