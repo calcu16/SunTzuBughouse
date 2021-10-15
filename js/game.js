@@ -106,7 +106,7 @@ var GAME = {
     }
     if (GAME.PREMOVE != null && GAME.TURN) {
       FUNCTIONAL.ajax("move.json", "POST", GAME.PREMOVE, null, function() { GAME.get_current_board() });
-      GAME.PREMOVE = null;
+      GAME.clear_premove();
     }
     for (var i = 0; i < n.length; ++i) {
       var sid = n[i].side == GAME.param("sid") ? 1 : 0;
@@ -135,6 +135,12 @@ var GAME = {
     }
     return false;
   },
+  clear_premove : function() {
+    if (GAME.PREMOVE != null) {
+      GAME.get_td(GAME.PREMOVE.bid, GAME.PREMOVE.slid).style.color = null;
+    }
+    GAME.PREMOVE = null;
+  },
   drop : function(name, piece) {
     if (name != "board0") {
       return;
@@ -153,7 +159,7 @@ var GAME = {
     if (b != "board0") {
       return;
     }
-    GAME.PREMOVE = null;
+    GAME.clear_premove();
     
     var lid = 8 * r + c;
     if (GAME.param("sid") == GAME.param("bid")) {
@@ -178,6 +184,9 @@ var GAME = {
         GAME.PREMOVE = args;
       }
       GAME.clear_active();
+      if (GAME.PREMOVE != null) {
+        GAME.get_td(GAME.PREMOVE.bid, GAME.PREMOVE.slid).style.color = 'blue';
+      }
     }
   },
   setup : function() {
