@@ -1,4 +1,4 @@
-select l_bid as board, l_lid as square, CASE WHEN l_cid = b_cid or l_visible THEN l_pid + c_unicode_offset ELSE 63 END as piece
+select l_bid as board, l_lid as square, CASE WHEN l_cid = b_cid or l_visible or g_result is not NULL THEN l_pid + c_unicode_offset ELSE 63 END as piece
   from locations
   join colors on l_cid = c_cid
   join entrants on l_gid = e_gid
